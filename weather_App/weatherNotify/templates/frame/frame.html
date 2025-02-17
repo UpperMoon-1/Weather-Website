@@ -1,0 +1,237 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+	<title>
+		Weather Today!
+	</title>
+	<link href="{% static 'weatherNotify/frame_dsgn.css' %}" rel="stylesheet">
+</head>
+<body class="page">
+	
+ 	<div class="top">
+ 		<form method="post">
+ 			{% csrf_token %}
+ 			
+ 			<input type="text" name="city" placeholder="Search for city" class="search-bar">
+ 			<button type="submit" class="get-weather">Get weather</button>
+ 		</form>
+ 	</div>
+ 	
+ 	<div class="tempcon">
+ 		<div>
+ 		 	<h1 class="city">
+				{{ CITY }}
+			</h1>
+			<h5 class="chance-rain">
+				Chance of rain {{ rain }}%
+			</h5>
+	
+			<h1 class="temp">
+				{{ temp }}°
+			</h1>
+ 		</div>
+
+		<div class="CP">
+			{% if forecast.weather == "rain" %}
+				<img src="{% static 'weatherNotify/images/rain.jpg' %}" class="big-img">
+			{% elif forecast.weather == "snow" %}
+				<img src="{% static 'weatherNotify/images/snow.png' %}" class="big-img">
+			{% elif forecast.weather == "light snow" %}
+				<img src="{% static 'weatherNotify/images/snow.png' %}" class="big-img">
+			{% elif forecast.weather == "heavy snow" %}
+				<img src="{% static 'weatherNotify/images/snow.png' %}" class="big-img">
+			{% elif is_dark %}
+				{% if forecast.weather == "clouds" %}
+					<img src="{% static 'weatherNotify/images/moon-behing-cloud-removebg-preview.png' %}" class="big-img">
+				{% elif forecast.weather == "overcast clouds" %}
+					<img src="{% static 'weatherNotify/images/moon-behing-cloud-removebg-preview.png' %}" class="big-img">
+				{% elif forecast.weather == "scattered clouds" %}
+					<img src="{% static 'weatherNotify/images/moon-behing-cloud-removebg-preview.png' %}" class="big-img">
+				{% elif forecast.weather == "broken clouds" %}
+					<img src="{% static 'weatherNotify/images/moon-behing-cloud-removebg-preview.png' %}" class="big-img">
+				{% else %}
+					<img src="{% static 'weatherNotify/images/moon.jpg' %}" class="big-img">
+				{% endif %}
+			{% else %}
+				{% if forecast.weather == "clouds" %}
+					<img src="{% static 'weatherNotify/images/sun-behind-cloud.png' %}" class="big-img">
+				{% elif forecast.weather == "broken clouds" %}
+					<img src="{% static 'weatherNotify/images/sun-behind-cloud.png' %}" class="big-img">
+				{% elif forecast.weather == "scattered clouds" %}
+					<img src="{% static 'weatherNotify/images/sun-behind-cloud.png' %}" class="big-img">
+				{% elif forecast.weather == "overcast clouds" %}
+					<img src="{% static 'weatherNotify/images/sun-behind-cloud.png' %}" class="big-img">
+				{% else %}
+					<img src="{% static 'weatherNotify/images/sun.png' %}" class="big-img">
+				{% endif %}
+			
+			{% endif %}
+			
+		</div>
+ 	</div>
+
+	
+
+	<div class="time">
+		<h1>
+			{{ hour }}:{{ minute }}
+		</h1>
+	</div>
+	<div class="forecast-con">
+	<div class="air-conditions">
+		<h4 class="today">
+			TODAY'S FORCAST
+		</h4>
+		
+		
+		
+		
+		
+		<div class="forecast-dates">
+			{% for forecast in todays_forecast %}
+			<h4 class="days">
+				{{ forecast.time }}<br>
+				{% if forecast.weather == "rain" %}
+					<img src="{% static 'weatherNotify/images/rain.jpg' %}" class="today-img">
+				{% elif forecast.weather == "snow" %} 
+					<img src="{% static 'weatherNotify/images/snow.png' %}" class="today-img">
+				{% elif forecast.weather == "light snow" %}
+					<img src="{% static 'weatherNotify/images/snow.png' %}" class="today-img">
+					
+				{% elif is_dark %}
+					{% if forecast.weather == "broken clouds" %}
+						<img src="{% static 'weatherNotify/images/newmoon.png' %}" class="today-img">
+						
+					{% elif forecast.weather == "clouds" %}
+						
+						<img src="{% static 'weatherNotify/images/moon-behing-cloud-removebg-preview.png' %}" class="today-img">
+					{% elif forecast.weather == "overcast clouds" %} 
+						
+						<img src="{% static 'weatherNotify/images/moon-behing-cloud-removebg-preview.png' %}" class="today-img">
+					{% elif forecast.weather == "scattered clouds" %} 
+						
+						<img src="{% static 'weatherNotify/images/moon-behing-cloud-removebg-preview.png' %}" class="today-img">
+					{% else %}
+						
+						<img src="{% static 'weatherNotify/images/newmoon.png' %}" class="today-img">
+					{% endif %}
+				{% else %}
+					{% if forecast.weather == "clear" %}
+						<img src="{% static 'weatherNotify/images/sun.png' %}" class="today-img">
+					{% elif forecast.weather == "clouds" %}
+						<img src="{% static 'weatherNotify/images/sun-behind-cloud.png' %}" class="today-img">
+					{% elif forecast.weather == "broken clouds" %}
+						<img src="{% static 'weatherNotify/images/sun-behind-cloud.png' %}" class="today-img">
+					{% elif forecast.weather == "overcast clouds" %}
+						<img src="{% static 'weatherNotify/images/sun-behind-cloud.png' %}" class="today-img">
+					{% elif forecast.weather == "scattered clouds" %}
+						<img src="{% static 'weatherNotify/images/sun-behind-cloud.png' %}" class="today-img">
+					{% else %}
+						<img src="{% static 'weatherNotify/images/sun.png' %}" class="today-img">
+					
+					{% endif %}
+				{% endif %}
+					
+				<br>{{ forecast.temp}}°
+			</h4>
+			<h4>
+				
+			</h4>
+			{% if not forloop.last %}
+			<div class="vl"></div>
+			{% endif %}
+			{% endfor %}
+		
+		</div>
+		
+		
+	</div>
+	<div class="seven-day"> 
+		<h3 class="title">Week's Forecast</h3>
+		
+		<div class="week-dis">
+			{% for fore_cast in weeks_forecast %} 
+				<div>
+					<p class="week-dates">{{ fore_cast.date }}
+					{% if fore_cast.weather == "rain" %}
+						<img src="{% static 'weatherNotify/images/rain.jpg' %}" class="week-img">
+					{% elif fore_cast.weather == "snow" %} 
+						<img src="{% static 'weatherNotify/images/snow.png' %}" class="week-img">
+					{% elif fore_cast.weather == "light snow" %}
+						<img src="{% static 'weatherNotify/images/snow.png' %}" class="week-img">
+					{% elif fore_cast.weather == "heavy snow" %} 
+						<img src="{% static 'weatherNotify/images/snow.png' %}" class="week-img">
+					{% elif fore_cast.weather == "clouds" %}
+						<img src="{% static 'weatherNotify/images/newcloud.png' %}" class="week-img">
+					{% elif fore_cast.weather == "broken clouds" %} 
+						<img src="{% static 'weatherNotify/images/newcloud.png' %}" class="week-img">
+					{% elif fore_cast.weather == "overcast clouds" %} 
+						<img src="{% static 'weatherNotify/images/newcloud.png' %}" class="week-img">
+					{% elif fore_cast.weather == "scattered clouds" %} 
+						<img src="{% static 'weatherNotify/images/newcloud.png' %}" class="week-img">
+					{% else %} 
+						<img src="{% static 'weatherNotify/images/sun.png' %}" class="week-img">
+					{% endif %}
+					
+					{{ fore_cast.temp }}°
+					</p>
+						
+				</div>
+				
+				
+			{% endfor %}
+		</div>
+	</div>
+	
+	</div>
+	
+	<div class="below">
+    	<h6 class="textinAC">AIR CONDITIONS</h6>
+    	<div class="COR">
+    		
+    		<h5> 
+    			<i class='fas fa-cloud-rain' id="RI"></i><br>
+    			Chance Of Rain
+    			<h3 class="RV">{{ rain }}%</h3>
+    		</h5>
+    	</div>
+    	
+    	<div class="pres"> 
+    		<h5>
+    			<i class='far fa-clock' id="PI" style='font-size:24px'></i><br>
+    			Pressure
+    			<h3 class="PS"> {{ pressure }}mb</h3>
+    		</h5>
+    	</div>
+    	
+    	<div class="WS">
+    		<h5 style='margin-bottom:10px'>
+    			<i class='fas fa-wind' style='font-size:24px'></i><br>
+    			Wind Speed
+    			
+    			
+    			
+    		</h5>
+    		<h3>{{ wind }}km/h</h3>
+    		
+    	</div>
+    	
+    	<div class="D"> 
+    		<h5>
+    			<i class='fas fa-calendar-alt' style='font-size:24px'></i><br>
+    			Date
+    		</h5>
+    		<h3>
+    		{{ month }} - {{ day }} - {{ year }} 
+    		</h3>
+    	</div>
+	</div>
+	
+</body>
+</html>
+

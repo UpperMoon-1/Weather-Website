@@ -1,0 +1,15 @@
+		<div class="rainCon">
+			<div id="rainId">
+				
+			</div>
+			<div class="COR">
+				<h6>
+					Chance of Rain
+				</h6>
+			</div>
+			
+			</div>
+			<div class="RP">
+				<h4>{{ rain }}%</h4>
+			</div>
+		</div>
